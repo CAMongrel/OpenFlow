@@ -66,13 +66,13 @@
     <Reference Include="System.Core" />
     <Reference Include="Xamarin.iOS" />
     <Reference Include="BouncyCastle">
-      <HintPath>..\packages\MimeKit.1.2.7.0\lib\xamarinios10\BouncyCastle.dll</HintPath>
+      <HintPath>..\packages\MimeKit.1.2.11.0\lib\xamarinios10\BouncyCastle.dll</HintPath>
     </Reference>
     <Reference Include="MimeKit">
-      <HintPath>..\packages\MimeKit.1.2.7.0\lib\xamarinios10\MimeKit.dll</HintPath>
+      <HintPath>..\packages\MimeKit.1.2.11.0\lib\xamarinios10\MimeKit.dll</HintPath>
     </Reference>
     <Reference Include="MailKit">
-      <HintPath>..\packages\MailKit.1.2.7.0\lib\xamarinios10\MailKit.dll</HintPath>
+      <HintPath>..\packages\MailKit.1.2.11.0\lib\xamarinios10\MailKit.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
