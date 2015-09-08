@@ -11,20 +11,20 @@ namespace OpenFlowLib.Model
 
 		public List<ChatMessage> MessagesCache { get; private set; }
 
-		public Conversation (MailboxAddress[] setParticipants)
+		public Conversation (string[] participantAddresses)
 		{
 			MessagesCache = new List<ChatMessage> ();
 
-			if (setParticipants == null)
+			if (participantAddresses == null)
 				throw new ArgumentNullException ("setParticipants");
 
-			Contacts = new Contact[setParticipants.Length];
-			for (int i = 0; i < setParticipants.Length; i++)
+			Contacts = new Contact[participantAddresses.Length];
+			for (int i = 0; i < participantAddresses.Length; i++)
 			{
-				Contact cntct = ContactDatabase.GetContact (setParticipants [i].Address);
+				Contact cntct = ContactDatabase.GetContact (participantAddresses[i]);
 				if (cntct == null)
 				{
-					cntct = ContactDatabase.AddContact (setParticipants [i].Name, setParticipants [i]);
+					cntct = ContactDatabase.AddContact (participantAddresses[i], participantAddresses[i], participantAddresses[i]);
 				}
 				Contacts [i] = cntct;
 			}
@@ -58,17 +58,17 @@ namespace OpenFlowLib.Model
 			return false;
 		}
 
-		public bool HasExactParticipants(MailboxAddress[] setParticipants)
+		public bool HasExactParticipants(string[] setParticipantAddresses)
 		{
 			if (Contacts == null || Contacts.Length == 0)
 				return false;
 
-			if (setParticipants.Length != Contacts.Length)
+			if (setParticipantAddresses.Length != Contacts.Length)
 				return false;
 
-			for (int i = 0; i < setParticipants.Length; i++)
+			for (int i = 0; i < setParticipantAddresses.Length; i++)
 			{
-				if (HasEmailAddressInParticipants (setParticipants [i].Address) == false)
+				if (HasEmailAddressInParticipants (setParticipantAddresses[i]) == false)
 					return false;
 			}
 

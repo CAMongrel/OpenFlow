@@ -40,7 +40,7 @@ namespace OpenFlow
 			account.SmtpAddress = "smtp.gmail.com";
 			account.SmtpPort = 587;
 
-			ContactDatabase.AddContact ("Ich", account.Address);
+			ContactDatabase.AddContact ("Ich", account.Address.Name, account.Address.Address);
 
 			loader = new MessageLoader (account);
 			loader.OnMessageReceived += (Message msg) => { HandleMessage(msg); };
@@ -91,11 +91,11 @@ namespace OpenFlow
 			Console.WriteLine("Received: " + msg.Text);
 
 			InvokeOnMainThread (() => {
-				MailboxAddress[] listOfAllAddresses = new MailboxAddress[msg.Others.Length + 1];
-				listOfAllAddresses[0] = msg.From;
+				string[] listOfAllAddresses = new string[msg.Others.Length + 1];
+				listOfAllAddresses[0] = msg.From.Address;
 				for (int i = 0; i < msg.Others.Length; i++)
 				{
-					listOfAllAddresses[i + 1] = msg.Others[i];
+					listOfAllAddresses[i + 1] = msg.Others[i].Address;
 				}
 
 				Conversation conv = ConversationDatabase.GetConversationForParticipants(listOfAllAddresses);
@@ -131,13 +131,13 @@ namespace OpenFlow
 			Contact ctct = ContactDatabase.GetContact("openflowtest1@gmail.com");
 			if (ctct == null)
 			{
-				ContactDatabase.AddContact("openflowtest1@gmail.com", new MailboxAddress("openflow1", "openflowtest1@gmail.com"));
+				ContactDatabase.AddContact("openflowtest1@gmail.com", "openflow1", "openflowtest1@gmail.com");
 				ctct = ContactDatabase.GetContact("openflowtest1@gmail.com");
 			}
 
-			MailboxAddress[] listOfAllAddresses = new MailboxAddress[2];
-			listOfAllAddresses[0] = ctct.Address;
-			listOfAllAddresses[1] = account.Address;
+			string[] listOfAllAddresses = new string[2];
+			listOfAllAddresses[0] = ctct.Address.Address;
+			listOfAllAddresses[1] = account.Address.Address;
 
 			Conversation conv = ConversationDatabase.GetConversationForParticipants(listOfAllAddresses);
 			if (conv != null)
@@ -153,13 +153,13 @@ namespace OpenFlow
 			Contact ctct = ContactDatabase.GetContact("openflowtest2@gmail.com");
 			if (ctct == null)
 			{
-				ContactDatabase.AddContact("openflowtest2@gmail.com", new MailboxAddress("openflow2", "openflowtest2@gmail.com"));
+				ContactDatabase.AddContact("openflowtest2@gmail.com", "openflow2", "openflowtest2@gmail.com");
 				ctct = ContactDatabase.GetContact("openflowtest2@gmail.com");
 			}
 
-			MailboxAddress[] listOfAllAddresses = new MailboxAddress[2];
-			listOfAllAddresses[0] = ctct.Address;
-			listOfAllAddresses[1] = account.Address;
+			string[] listOfAllAddresses = new string[2];
+			listOfAllAddresses[0] = ctct.Address.Address;
+			listOfAllAddresses[1] = account.Address.Address;
 
 			Conversation conv = ConversationDatabase.GetConversationForParticipants(listOfAllAddresses);
 			if (conv != null)
