@@ -30,6 +30,12 @@ namespace OpenFlowLib.Model
 			}
 		}
 
+		public static Conversation FromProperties(IDictionary<string, object> properties)
+		{
+			string[] parts = (string[])properties["conversation.participants"];
+			return new Conversation (parts);
+		}
+
 		public int NumberOfUnreadMessages()
 		{
 			int count = 0;
@@ -75,7 +81,7 @@ namespace OpenFlowLib.Model
 			return true;
 		}
 
-		private static bool ArrayContains(MailboxAddress[] array, MailboxAddress item)
+		private static bool ArrayContains(string[] array, string item)
 		{
 			for (int i = 0; i < array.Length; i++)
 			{
@@ -85,15 +91,15 @@ namespace OpenFlowLib.Model
 			return false;
 		}
 
-		public MailboxAddress[] CopyParticipants(params MailboxAddress[] exclusionList)
+		public string[] CopyParticipants(params string[] exclusionList)
 		{
-			List<MailboxAddress> result = new List<MailboxAddress>();
+			List<string> result = new List<string>();
 			for (int i = 0; i < Contacts.Length; i++)
 			{
-				if (ArrayContains (exclusionList, Contacts [i].Address))
+				if (ArrayContains (exclusionList, Contacts [i].Address.Address))
 					continue;
 
-				result.Add(Contacts [i].Address);
+				result.Add(Contacts [i].Address.Address);
 			}
 			return result.ToArray();
 		}

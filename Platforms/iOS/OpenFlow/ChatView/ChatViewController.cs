@@ -294,7 +294,7 @@ namespace OpenFlow.Chat
 
 			if (SenderAccount != null)
 			{
-				await msgSender.SendMessage (SenderAccount, msg.Text, Conversation.CopyParticipants(SenderAccount.Address));
+				await msgSender.SendMessage (SenderAccount, msg.Text, Conversation.CopyParticipants(SenderAccount.Address.Address));
 			}
 		}
 

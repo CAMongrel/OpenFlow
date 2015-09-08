@@ -13,13 +13,13 @@ namespace OpenFlowLib.iOS
 		{
 		}
 
-		public async Task SendMessage(MailAccount fromAccount, string messageText, params MailboxAddress[] receipients)
+		public async Task SendMessage(MailAccount fromAccount, string messageText, params string[] receipients)
 		{
 			MimeKit.MimeMessage message = new MimeKit.MimeMessage();
 			message.From.Add(fromAccount.Address);
 			for (int i = 0; i < receipients.Length; i++)
 			{
-				message.To.Add (receipients [i]);
+				message.To.Add (new MailboxAddress(receipients [i], receipients [i]));
 			}
 
 			message.Subject = string.Format("[OpenFlow {0}]", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss zz"));

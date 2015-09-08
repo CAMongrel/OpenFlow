@@ -17,6 +17,21 @@ namespace OpenFlowLib.Model
 
 			database = Manager.SharedInstance.GetDatabase ("conversations");
 			databaseView = database.GetView ("conversations");
+
+			LoadConversations ();
+		}
+
+		private static void LoadConversations()
+		{
+			Query query = database.CreateAllDocumentsQuery ();
+			var rows = query.Run ();
+			foreach (var row in rows)
+			{
+				Document doc = row.Document;
+				var properties = doc.Properties;
+				Conversation conv = Conversation.FromProperties (properties);
+				conversations.Add (conv);
+			}
 		}
 
 		public static int Count
@@ -56,6 +71,12 @@ namespace OpenFlowLib.Model
 
 			conv = new Conversation (participantAddresses);
 			conversations.Add (conv);
+
+			Dictionary<string, object> vals = new Dictionary<string, object> {
+				{ "conversation.participants", conv.CopyParticipants() },
+			};
+			Document doc = database.CreateDocument ();
+			doc.PutProperties (vals);
 			return conv;
 		}
 	}
