@@ -65,7 +65,7 @@ namespace OpenFlow.Chat
 			messages = new List<ChatMessage> ();
 
 			msgSender = new MessageSender ();
-			messages.AddRange (Conversation.MessagesCache);
+			messages.AddRange (Conversation.CopyMessageCache());
 		}
 
 		#region Life cycle
@@ -290,7 +290,7 @@ namespace OpenFlow.Chat
 			tableView.InsertRows (new NSIndexPath[] { NSIndexPath.FromRowSection (messages.Count - 1, 0) }, UITableViewRowAnimation.None);
 			ScrollToBottom (true);
 
-			Conversation.MessagesCache.Add (msg);
+			Conversation.AddMessage(msg);
 
 			if (SenderAccount != null)
 			{

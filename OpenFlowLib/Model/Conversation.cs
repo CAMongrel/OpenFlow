@@ -2,21 +2,34 @@
 using System.Collections.Generic;
 using MimeKit;
 using System.Text;
+using Couchbase.Lite;
 
 namespace OpenFlowLib.Model
 {
 	public class Conversation
 	{
+		private static Database database;
+		private static View defaultView;
+
 		public Contact[] Contacts { get; private set; }
 
-		public List<ChatMessage> MessagesCache { get; private set; }
+		private List<ChatMessage> messagesCache;
+
+		static Conversation()
+		{
+			database = Manager.SharedInstance.GetDatabase ("conversations");
+			defaultView = database.GetView ("conversation-messages");
+			defaultView.SetMap ((document, emit) => {
+				//
+			}, "1");
+		}
 
 		public Conversation (string[] participantAddresses)
 		{
-			MessagesCache = new List<ChatMessage> ();
+			messagesCache = new List<ChatMessage> ();
 
 			if (participantAddresses == null)
-				throw new ArgumentNullException ("setParticipants");
+				throw new ArgumentNullException ("participantAddresses");
 
 			Contacts = new Contact[participantAddresses.Length];
 			for (int i = 0; i < participantAddresses.Length; i++)
@@ -32,16 +45,26 @@ namespace OpenFlowLib.Model
 
 		public static Conversation FromProperties(IDictionary<string, object> properties)
 		{
-			string[] parts = (string[])properties["conversation.participants"];
+			string[] parts = ((Newtonsoft.Json.Linq.JArray)properties ["conversation.participants"]).ToObject<string[]>();
 			return new Conversation (parts);
+		}
+
+		public void AddMessage(ChatMessage msg)
+		{
+			messagesCache.Add (msg);
+		}
+
+		public ChatMessage[] CopyMessageCache()
+		{
+			return messagesCache.ToArray ();
 		}
 
 		public int NumberOfUnreadMessages()
 		{
 			int count = 0;
-			for (int i = 0; i < MessagesCache.Count; i++)
+			for (int i = 0; i < messagesCache.Count; i++)
 			{
-				if (MessagesCache [i].Unread)
+				if (messagesCache [i].Unread)
 				{
 					count++;
 				}

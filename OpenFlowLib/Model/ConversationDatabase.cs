@@ -8,7 +8,6 @@ namespace OpenFlowLib.Model
 	public static class ConversationDatabase
 	{
 		private static Database database;
-		private static View databaseView;
 		private static List<Conversation> conversations;
 
 		static ConversationDatabase ()
@@ -16,7 +15,6 @@ namespace OpenFlowLib.Model
 			conversations = new List<Conversation> ();
 
 			database = Manager.SharedInstance.GetDatabase ("conversations");
-			databaseView = database.GetView ("conversations");
 
 			LoadConversations ();
 		}
@@ -68,6 +66,9 @@ namespace OpenFlowLib.Model
 			Conversation conv = FindConversationForParticipants (participantAddresses);
 			if (conv != null)
 				return conv;
+
+			if (participantAddresses == null || participantAddresses.Length == 0)
+				return null;
 
 			conv = new Conversation (participantAddresses);
 			conversations.Add (conv);

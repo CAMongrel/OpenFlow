@@ -42,6 +42,8 @@ namespace OpenFlow
 
 			ContactDatabase.AddContact ("Ich", account.Address.Name, account.Address.Address);
 
+			ConversationDatabase.GetConversationForParticipants (new string[] { "hans@meier.de", "zuppel@bla.de" });
+
 			loader = new MessageLoader (account);
 			loader.OnMessageReceived += (Message msg) => { HandleMessage(msg); };
 
@@ -108,7 +110,7 @@ namespace OpenFlow
 				newMsg.Text = msg.Text;
 				newMsg.Unread = true;
 
-				conv.MessagesCache.Add(newMsg);
+				conv.AddMessage(newMsg);
 
 				conversationTable.ReloadData();
 
