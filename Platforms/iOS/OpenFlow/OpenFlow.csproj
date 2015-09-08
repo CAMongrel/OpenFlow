@@ -59,6 +59,8 @@
     <MtouchProfiling>true</MtouchProfiling>
     <CodesignKey>iPhone Developer</CodesignKey>
     <MtouchDebug>true</MtouchDebug>
+    <IpaPackageName>
+    </IpaPackageName>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -85,6 +87,7 @@
     <ImageAsset Include="Resources\Images.xcassets\BubbleOutgoing.imageset\bubble_regular.png" />
     <ImageAsset Include="Resources\Images.xcassets\BubbleOutgoing.imageset\bubble_regular%402x.png" />
     <ImageAsset Include="Resources\Images.xcassets\BubbleOutgoing.imageset\bubble_regular%403x.png" />
+    <ImageAsset Include="Resources\Images.xcassets\LaunchImages.launchimage\Contents.json" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="Main.storyboard" />

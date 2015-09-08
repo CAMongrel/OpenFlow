@@ -40,7 +40,13 @@ namespace OpenFlowLib.Network
 				while (IsActive)
 				{
 					await ReadMessages();
-					await Task.Delay(100);
+					await Task.Delay(500);
+				}
+
+				if (client.IsConnected)
+				{
+					Console.WriteLine("Disconnect is required");
+					await client.DisconnectAsync(true);	
 				}
 			});
 		}
@@ -50,19 +56,32 @@ namespace OpenFlowLib.Network
 			IsActive = false;
 		}
 
+		private async Task PerformConnect()
+		{
+		}
+
 		private async Task ReadMessages()
 		{
 			try
 			{
-				await client.ConnectAsync (Account.ImapAddress, Account.ImapPort, SecureSocketOptions.SslOnConnect);
-				client.AuthenticationMechanisms.Remove ("XOAUTH");
+				if (client.IsConnected == false)
+				{
+					Console.WriteLine("Connect is required");
+					await client.ConnectAsync (Account.ImapAddress, Account.ImapPort, SecureSocketOptions.SslOnConnect);
+				}
 
-				await client.AuthenticateAsync (Account.Address.Address, Account.Password);
+				if (client.IsAuthenticated == false)
+				{
+					Console.WriteLine("Auth is required");
+					client.AuthenticationMechanisms.Remove ("XOAUTH");
+					await client.AuthenticateAsync (Account.Address.Address, Account.Password);
+				}
 
 				// The Inbox folder is always available on all IMAP servers...
 				var inbox = client.Inbox;
 
-				await inbox.OpenAsync(FolderAccess.ReadWrite);
+				FolderAccess access = await inbox.OpenAsync(FolderAccess.ReadWrite);
+				Console.WriteLine("Got folder access: " + access);
 
 				var query = SearchQuery.SubjectContains("[OpenFlow").And(SearchQuery.NotSeen);
 
@@ -92,7 +111,7 @@ namespace OpenFlowLib.Network
 			}
 			finally
 			{
-				await client.DisconnectAsync(true);	
+				
 			}
 		}
 	}

@@ -31,18 +31,24 @@ namespace OpenFlow
 			conversationTable.WeakDelegate = this;
 			conversationTable.WeakDataSource = this;
 
-			account = new MailAccount ();
-			account.Address.Name = "Hans Meier 1";
-			account.Address.Address = "openflowtest1@gmail.com";
-			account.ImapAddress = "imap.gmail.com";
-			account.ImapPort = 993;
-			account.Password = "openflow1";
-			account.SmtpAddress = "smtp.gmail.com";
-			account.SmtpPort = 587;
+			account = MailAccount.LoadMailAccount ();
 
+			if (account == null)
+			{
+				account = new MailAccount ();
+				account.Address.Name = "Hans Meier 1";
+				account.Address.Address = "openflowtest1@gmail.com";
+				account.ImapAddress = "imap.gmail.com";
+				account.ImapPort = 993;
+				account.Password = "openflow1";
+				account.SmtpAddress = "smtp.gmail.com";
+				account.SmtpPort = 587;
+
+				account.Save ();
+			}
+
+			// Set the "Me" account
 			ContactDatabase.AddContact ("Ich", account.Address.Name, account.Address.Address);
-
-			ConversationDatabase.GetConversationForParticipants (new string[] { "hans@meier.de", "zuppel@bla.de" });
 
 			loader = new MessageLoader (account);
 			loader.OnMessageReceived += (Message msg) => { HandleMessage(msg); };
