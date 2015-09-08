@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<component format="1" id="couchbase-lite-net">
+  <name>Couchbase Lite for .NET</name>
+  <publisher>Couchbase</publisher>
+  <publisher-url>http://www.couchbase.com</publisher-url>
+  <version>1.0.4</version>
+  <summary>A lightweight, document-oriented (NoSQL), syncable database engine.</summary>
+  <packages>
+    <package id="Newtonsoft.Json" version="6.0.4" />
+    <package id="SQLitePCL.raw_basic" version="0.7.0" />
+    <package id="SQLitePCL.ugly" version="0.7.0" />
+  </packages>
+  <screenshots>
+    <img src="screenshots/screenshot1.png" title="screenshot1" />
+  </screenshots>
+  <samples>
+    <sample id="SimpleAndroidSync">
+      <name>Android Sample</name>
+      <summary>Android Sample</summary>
+    </sample>
+    <sample id="CouchbaseSample.iOS">
+      <name>iOS Sample</name>
+      <summary>iOS Sample</summary>
+    </sample>
+  </samples>
+</component>

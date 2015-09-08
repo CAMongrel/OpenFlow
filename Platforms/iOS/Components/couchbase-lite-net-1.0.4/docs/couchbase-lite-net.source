@@ -1,0 +1,6 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<monodoc>
+  <node label="Xamarin Components" name="components" parent="libraries" />
+  <node label="Couchbase Lite for .NET" name="couchbase-lite-net" parent="components" />
+  <source provider="ecma" basefile="couchbase-lite-net" path="couchbase-lite-net" />
+</monodoc>
